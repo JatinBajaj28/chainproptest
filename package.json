@@ -1,0 +1,8 @@
+{
+  "name": "axios-transitive-test",
+  "version": "1.0.0",
+  "description": "Transitive dependency vulnerability test",
+  "dependencies": {
+    "express-wrapper": "1.0.0"
+  }
+}
