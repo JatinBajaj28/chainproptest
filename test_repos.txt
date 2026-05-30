@@ -1,0 +1,139 @@
+# =============================================================================
+# vulnalyzer — test_repos.txt
+# =============================================================================
+# Format per block:
+#   REPO_URL    <GitHub repo URL>
+#   ECOSYSTEM   <OSV ecosystem name>
+#   PACKAGE     <package name to ingest CVEs for>
+#
+# Usage:
+#   # 1. Ingest CVEs for a package into the DB
+#   python scripts/ingest_cves.py --package <PACKAGE> --ecosystem <ECOSYSTEM>
+#
+#   # 2. Scan a repo (discovers manifest files automatically)
+#   python scripts/scan_repo.py <REPO_URL>
+#
+#   # 3. Build the graph, then open the UI
+#   python scripts/build_graph.py
+#   python run.py   # → http://localhost:8000
+# =============================================================================
+
+
+# ── npm ──────────────────────────────────────────────────────────────────────
+# Classic Node.js app with package.json + package-lock.json
+REPO_URL    https://github.com/expressjs/express
+ECOSYSTEM   npm
+PACKAGE     lodash
+
+# Another npm project (uses yarn.lock)
+REPO_URL    https://github.com/facebook/create-react-app
+ECOSYSTEM   npm
+PACKAGE     minimist
+
+REPO_URL    https://github.com/axios/axios
+ECOSYSTEM   npm
+PACKAGE     axios
+
+
+# ── PyPI ─────────────────────────────────────────────────────────────────────
+# Python project with requirements.txt
+REPO_URL    https://github.com/django/django
+ECOSYSTEM   PyPI
+PACKAGE     django
+
+# Poetry / pyproject.toml project
+REPO_URL    https://github.com/pallets/flask
+ECOSYSTEM   PyPI
+PACKAGE     pyyaml
+
+REPO_URL    https://github.com/ansible/ansible
+ECOSYSTEM   PyPI
+PACKAGE     ansible
+
+
+# ── Maven ────────────────────────────────────────────────────────────────────
+# Java project with pom.xml
+REPO_URL    https://github.com/spring-projects/spring-framework
+ECOSYSTEM   Maven
+PACKAGE     org.apache.logging.log4j:log4j-core
+
+REPO_URL    https://github.com/mybatis/mybatis-3
+ECOSYSTEM   Maven
+PACKAGE     com.fasterxml.jackson.core:jackson-databind
+
+
+# ── Go ───────────────────────────────────────────────────────────────────────
+# Go module with go.mod + go.sum
+REPO_URL    https://github.com/gin-gonic/gin
+ECOSYSTEM   Go
+PACKAGE     golang.org/x/net
+
+REPO_URL    https://github.com/hashicorp/terraform
+ECOSYSTEM   Go
+PACKAGE     golang.org/x/crypto
+
+# Another Go project — HTTP/2 rapid reset (CVE-2023-44487)
+REPO_URL    https://github.com/grpc/grpc-go
+ECOSYSTEM   Go
+PACKAGE     golang.org/x/net
+
+
+# ── crates.io ────────────────────────────────────────────────────────────────
+# Rust project with Cargo.toml + Cargo.lock
+REPO_URL    https://github.com/tokio-rs/tokio
+ECOSYSTEM   crates.io
+PACKAGE     openssl-sys
+
+REPO_URL    https://github.com/actix/actix-web
+ECOSYSTEM   crates.io
+PACKAGE     h2
+
+# Popular Rust HTTP client
+REPO_URL    https://github.com/seanmonstar/reqwest
+ECOSYSTEM   crates.io
+PACKAGE     openssl
+
+
+# ── NuGet ────────────────────────────────────────────────────────────────────
+# .NET project with packages.config or *.csproj PackageReference
+REPO_URL    https://github.com/dotnet/aspnetcore
+ECOSYSTEM   NuGet
+PACKAGE     Newtonsoft.Json
+
+# SDK-style csproj (Directory.Packages.props)
+REPO_URL    https://github.com/SignalR/SignalR
+ECOSYSTEM   NuGet
+PACKAGE     Microsoft.AspNetCore.Http.Connections
+
+# Older project using packages.config
+REPO_URL    https://github.com/NuGet/NuGetGallery
+ECOSYSTEM   NuGet
+PACKAGE     System.Text.RegularExpressions
+
+
+# =============================================================================
+# Quick-start: ingest all packages above at once
+# =============================================================================
+#
+#   python scripts/ingest_cves.py --package lodash                          --ecosystem npm
+#   python scripts/ingest_cves.py --package minimist                        --ecosystem npm
+#   python scripts/ingest_cves.py --package axios                           --ecosystem npm
+#   python scripts/ingest_cves.py --package django                          --ecosystem PyPI
+#   python scripts/ingest_cves.py --package pyyaml                          --ecosystem PyPI
+#   python scripts/ingest_cves.py --package ansible                         --ecosystem PyPI
+#   python scripts/ingest_cves.py --package org.apache.logging.log4j:log4j-core --ecosystem Maven
+#   python scripts/ingest_cves.py --package com.fasterxml.jackson.core:jackson-databind --ecosystem Maven
+#   python scripts/ingest_cves.py --package golang.org/x/net                --ecosystem Go
+#   python scripts/ingest_cves.py --package golang.org/x/crypto             --ecosystem Go
+#   python scripts/ingest_cves.py --package openssl-sys                     --ecosystem crates.io
+#   python scripts/ingest_cves.py --package h2                              --ecosystem crates.io
+#   python scripts/ingest_cves.py --package openssl                         --ecosystem crates.io
+#   python scripts/ingest_cves.py --package Newtonsoft.Json                 --ecosystem NuGet
+#   python scripts/ingest_cves.py --package System.Text.RegularExpressions  --ecosystem NuGet
+#
+#   Then scan all repos:
+#   python scripts/batch_scan.py test_repos.txt
+#
+#   Build graph and start UI:
+#   python scripts/build_graph.py && python run.py
+# =============================================================================
